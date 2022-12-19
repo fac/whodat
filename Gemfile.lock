@@ -188,7 +188,7 @@ GEM
       nio4r (~> 2.0)
     racc (1.6.1)
     rack (2.2.4)
-    rack-mini-profiler (2.3.4)
+    rack-mini-profiler (3.0.0)
       rack (>= 1.2.0)
     rack-test (2.0.2)
       rack (>= 1.3)
@@ -307,7 +307,7 @@ DEPENDENCIES
   listen (~> 3.7)
   pg
   puma (~> 5.6)
-  rack-mini-profiler (~> 2.0)
+  rack-mini-profiler (~> 3.0)
   rails (~> 7.0.4)
   ruby-trello
   sass-rails (>= 6)
