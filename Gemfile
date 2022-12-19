@@ -13,7 +13,7 @@ gem 'google_sign_in'
 gem 'image_processing', '~> 1.12'
 gem 'jbuilder', '~> 2.7'
 gem 'pg'
-gem 'puma', '~> 5.6'
+gem 'puma', '~> 6.0'
 gem 'ruby-trello'
 gem 'sass-rails', '>= 6'
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
