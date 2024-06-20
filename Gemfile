@@ -15,6 +15,7 @@ gem 'jbuilder', '~> 2.12'
 gem 'pg'
 gem 'puma'
 gem 'ruby-trello'
+gem 'notion-ruby-client'
 gem 'sass-rails', '>= 6'
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
