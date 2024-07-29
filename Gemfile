@@ -10,7 +10,7 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem 'discard', '~> 1.3'
 gem 'down'
 gem 'google_sign_in'
-gem 'image_processing', '~> 1.12'
+gem 'image_processing', '~> 1.13'
 gem 'jbuilder', '~> 2.12'
 gem 'pg'
 gem 'puma'
