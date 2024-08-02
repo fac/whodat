@@ -272,7 +272,7 @@ GEM
     regexp_parser (2.9.2)
     reline (0.5.7)
       io-console (~> 0.5)
-    rexml (3.3.0)
+    rexml (3.3.3)
       strscan
     ruby-trello (4.2.0)
       activemodel (>= 6.0.0)
