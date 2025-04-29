@@ -53,7 +53,7 @@ namespace :notion do
           if person.persisted? && person.updated_at > card.updated_at
             # if person.persisted? && person.updated_at > card.updated_at
             Rails.logger.info "No activity. Skipping"
-            next
+            #next
           end
 
           person.name = card.name
@@ -151,7 +151,7 @@ namespace :notion do
     end
 
     def department
-      @node[:properties][:Department][:status][:name]
+      @node[:properties][:Department][:select][:name]
     rescue
       ""
     end
