@@ -168,7 +168,7 @@ namespace :notion do
     end
 
     def image_url
-      @node&.cover.url || @node[:properties][:Attachments][:files][0][:file][:url]
+      @node&.cover&.file&.url || @node[:properties][:Attachments][:files][0][:file][:url]
     rescue
       ""
     end
