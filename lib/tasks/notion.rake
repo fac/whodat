@@ -48,23 +48,16 @@ namespace :notion do
 
           Rails.logger.info "checking #{card.name}"
 
-          # Don't skip if person doesn't exist
-          # Skip if they exist and the updated time is after the card updated time. 
-          if person.persisted? && person.updated_at > card.updated_at
-            # if person.persisted? && person.updated_at > card.updated_at
-            Rails.logger.info "No activity. Skipping"
-            #next
-          end
-
           person.name = card.name
           person.title = card.title
           person.team = card.department
           person.trello_created_at = card.created_at
           person.save!
 
-          if card.image_url.present?
+          if card.image_url.present? && (person.avatar.filename.to_s != card.image_filename)
             image_io = Down::NetHttp.open(card.image_url)
             person.avatar.attach(io: image_io, filename: card.image_filename)
+            Rails.logger.info "Attached image #{card.image_filename} to #{person.name}"
           end
 
           Rails.logger.info "Person #{person.name}, #{person.title}, #{person.team} updated"
