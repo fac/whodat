@@ -48,26 +48,25 @@ namespace :notion do
 
           Rails.logger.info "checking #{card.name}"
 
-          # Don't skip if person doesn't exist
-          # Skip if they exist and the updated time is after the card updated time. 
-          if person.persisted? && person.updated_at > card.updated_at
-            # if person.persisted? && person.updated_at > card.updated_at
-            Rails.logger.info "No activity. Skipping"
-            next
-          end
-
           person.name = card.name
           person.title = card.title
           person.team = card.department
           person.trello_created_at = card.created_at
-          person.save!
 
-          if card.image_url.present?
-            image_io = Down::NetHttp.open(card.image_url)
-            person.avatar.attach(io: image_io, filename: card.image_filename)
+          person_updated = person.changed?
+          person.save! # we need to save before attaching images so object exists
+
+          if person_updated || person.avatar.blank?
+            if card.image_url.present?
+              image_io = Down::NetHttp.open(card.image_url)
+              person.avatar.attach(io: image_io, filename: card.image_filename)
+              Rails.logger.info "Person #{person.name} image updated"
+            else
+              Rails.logger.info "Person #{person.name} has no image"
+            end
           end
-
           Rails.logger.info "Person #{person.name}, #{person.title}, #{person.team} updated"
+
         rescue
           Rails.logger.info "Could not update"
         end
@@ -175,7 +174,7 @@ namespace :notion do
     end
 
     def image_url
-      @node&.cover.url || @node[:properties][:Attachments][:files][0][:file][:url]
+      @node&.cover&.file&.url || @node[:properties][:Attachments][:files][0][:file][:url]
     rescue
       ""
     end
