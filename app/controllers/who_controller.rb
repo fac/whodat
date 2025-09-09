@@ -2,6 +2,8 @@ class WhoController < ApplicationController
   include Authorization
 
   def index
+    @people = Person.kept.with_attached_avatar.count
+    @newbies = Person.kept.where("trello_created_at > ?", 1.year.ago).count
   end
 
   def play

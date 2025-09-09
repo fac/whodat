@@ -8,4 +8,8 @@
   <div class="logout mt-5">
     <%= button_to "👋 Log Out", login_path, method: :delete, class: "btn btn-link" %>
   </div>
+
+  <div class="count-footer">
+    <small>Everyone: <%= @people %> &nbsp;|&nbsp; Newbies: <%= @newbies %></small>
+  </div>
 </div>

@@ -141,3 +141,11 @@ body {
 .chunky-button:hover {
   -webkit-text-stroke: 1px #C30303;
 }
+
+.count-footer {
+  width: 100%;
+  text-align: center;
+  padding: 0.5em 0;
+  font-size: 0.9em;
+  margin-top: 5rem;
+}
