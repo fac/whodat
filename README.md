@@ -4,7 +4,7 @@
 
 Who 'Dat? is simple game to help you get to know the people on your team.
 
-It parses the data in a "Who's Who" Trello board which must be constructed as follows:
+It parses the data in a "Who's Who" Notion board which must be constructed as follows:
 
 * A list for each team. The title of the list is the team name
 * A card for each person, with their headshot as a cover image. The title of the card should be in the form "Full Name [Role Title]"
@@ -31,21 +31,20 @@ bundle exec rails db:create
 bundle exec rails db:reset
 ```
 
-### Configure Trello
+### Configure Notion
 
-You need to configure the app with Trello credentials.
+You need to configure the app with Notion credentials.
 
-First [obtain your API keys](https://trello.com/app-key) from your Trello account.
+First [obtain your API keys](https://notion.com/app-key) from your Notion account.
 
 Next, add the keys to your Rails credentials (using `bin/rails credentials:edit`):
 
 ```yaml
-trello:
-  api_key: [YOUR API KEY]
-  token: [YOUR API TOKEN]
+notion:
+  internal_integration_secret: [YOUR API KEY]
 ```
 
-You also need to set the environment variable `TRELLO_BOARD_ID` (e.g. `Yae2dtTq`).
+You also need to set the environment variable `NOTION_DATABASE_ID` (e.g. `Yae2dtTq`).
 
 ### Configure Google Sign In
 
@@ -59,12 +58,12 @@ google_sign_in:
   client_secret: [YOUR CLIENT SECRET]
 ```
 
-### Import the data from Trello into the database
+### Import the data from Notion into the database
 
-You will need to run this regularly to keep the database in sync with Trello.
+You will need to run this regularly to keep the database in sync with Notion.
 
 ```bash
-bundle exec rake trello:load_people
+bundle exec rake notion:load_people
 ```
 
 ## Running the app

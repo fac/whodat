@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_09_000002) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_09_000003) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -46,7 +46,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_09_000002) do
     t.string "name"
     t.string "title"
     t.string "team"
-    t.string "trello_card_id", null: false
+    t.string "notion_card_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "joined_date"

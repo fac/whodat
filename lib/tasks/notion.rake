@@ -18,7 +18,7 @@ namespace :notion do
     Person.kept.find_each do |person|
       Rails.logger.info "Checking #{person.name}"
 
-      card = notion_cards[person.trello_card_id]
+      card = notion_cards[person.notion_card_id]
       if card.nil?
         Rails.logger.info "Card not found. Deleting #{person.name}"
         person.discard!
@@ -44,7 +44,7 @@ namespace :notion do
       page.results.each do |result|
         begin
           card = NotionExtract.from(result)
-          person = Person.find_or_initialize_by(trello_card_id: card.notion_id)
+          person = Person.find_or_initialize_by(notion_card_id: card.notion_id)
 
           Rails.logger.info "checking #{card.name}"
 

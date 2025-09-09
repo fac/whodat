@@ -14,7 +14,6 @@ gem 'image_processing', '~> 1.13'
 gem 'jbuilder', '~> 2.14'
 gem 'pg'
 gem 'puma'
-gem 'ruby-trello'
 gem 'notion-ruby-client'
 gem 'sass-rails', '>= 6'
 # Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
