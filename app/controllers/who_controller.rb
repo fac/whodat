@@ -13,11 +13,12 @@ class WhoController < ApplicationController
   end
 
   def play
-    scope = if params[:recent].present?
-        Person.newbies
-    elsif params[:edinburgh].present?
+    scope = case params
+    in {:recent}
+      Person.newbies
+    in {:edinburgh}
       Person.edinburgh
-    elsif params[:remote].present?
+    in {:remote}
       Person.remote
     else
       Person.everyone
