@@ -51,16 +51,15 @@ namespace :notion do
           person.name = card.name
           person.title = card.title
           person.team = card.department
-          person.trello_created_at = card.created_at
+          person.joined_date = card.joined_date || card.created_at
 
-          person_updated = person.changed?
           person.save! # we need to save before attaching images so object exists
 
-          if person_updated || person.avatar.blank?
+          if person.avatar.blank? || (person.avatar.filename.to_s != card.image_filename)
             if card.image_url.present?
               image_io = Down::NetHttp.open(card.image_url)
               person.avatar.attach(io: image_io, filename: card.image_filename)
-              Rails.logger.info "Person #{person.name} image updated"
+              Rails.logger.info "Attached image #{card.image_filename} to #{person.name}"
             else
               Rails.logger.info "Person #{person.name} has no image"
             end
@@ -150,13 +149,19 @@ namespace :notion do
     end
 
     def department
-      @node[:properties][:Department][:status][:name]
+      @node[:properties][:Department][:select][:name]
     rescue
       ""
     end
 
     def location
       @node[:properties][:Location][:select][:name]
+    rescue
+      ""
+    end
+
+    def joined_date
+      @node[:properties][:Joined][:date][:start]
     rescue
       ""
     end
@@ -188,7 +193,7 @@ namespace :notion do
     end
 
     def to_s
-      "#{notion_id}, #{name}, #{title}, #{team}, #{department}, #{location}, #{image_url[-20..]}, #{image_filename}, #{created_at}, #{updated_at}"
+      "#{notion_id}, #{name}, #{title}, #{team}, #{department}, #{location}, #{image_url[-20..]}, #{image_filename}, #{joined_date}, #{created_at}, #{updated_at}"
     end
   end
 end

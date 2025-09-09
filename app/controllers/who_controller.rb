@@ -3,14 +3,14 @@ class WhoController < ApplicationController
 
   def index
     @people = Person.kept.with_attached_avatar.count
-    @newbies = Person.kept.where("trello_created_at > ?", 1.year.ago).count
+    @newbies = Person.kept.where("joined_date > ?", 1.year.ago).count
   end
 
   def play
     scope = unless params[:recent].present?
         Person.kept.with_attached_avatar.all
       else
-        Person.kept.where("trello_created_at > ?", 1.year.ago)
+        Person.kept.where("joined_date > ?", 1.year.ago)
       end
 
     @person = scope.with_attached_avatar.select {|p| p.avatar.attached?}.sample
