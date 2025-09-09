@@ -51,6 +51,7 @@ namespace :notion do
           person.name = card.name
           person.title = card.title
           person.team = card.department
+          person.location = card.location
           person.joined_date = card.joined_date || card.created_at
 
           person.save! # we need to save before attaching images so object exists

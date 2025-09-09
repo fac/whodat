@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_09_09_000001) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_09_000002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -51,6 +51,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_09_09_000001) do
     t.datetime "updated_at", null: false
     t.datetime "joined_date"
     t.datetime "discarded_at"
+    t.string "location"
     t.index ["discarded_at"], name: "index_people_on_discarded_at"
   end
 
