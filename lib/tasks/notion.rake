@@ -56,13 +56,21 @@ namespace :notion do
 
           person.save! # we need to save before attaching images so object exists
 
-          if person.avatar.blank? || (person.avatar.filename.to_s != card.image_filename)
-            if card.image_url.present?
+          
+          if card.image_url.present?
+            # There's an image in Notion
+            if person.avatar.blank? || (person.avatar.filename.to_s != card.image_filename)
+              # Download it and attach if we don't have one or it's different
               image_io = Down::NetHttp.open(card.image_url)
               person.avatar.attach(io: image_io, filename: card.image_filename)
               Rails.logger.info "Attached image #{card.image_filename} to #{person.name}"
-            else
-              Rails.logger.info "Person #{person.name} has no image"
+            end
+          else
+            # There's no image in Notion
+            if person.avatar.attached?
+              # Remove any existing image
+              person.avatar.purge
+              Rails.logger.info "Removed image from #{person.name}"
             end
           end
           Rails.logger.info "Person #{person.name}, #{person.title}, #{person.team} updated"
