@@ -8,7 +8,7 @@ class WhoController < ApplicationController
     @remote = Person.remote.count
     
     # Set a new random seed for this session
-    session[:random_seed] = (rand * 2) - 1
+    session[:random_seed] = random_seed
     session[:position] = 0
   end
 
@@ -25,7 +25,7 @@ class WhoController < ApplicationController
     end
 
     # Get seed and position from session, with defaults
-    seed = session[:random_seed] || (rand * 2) - 1
+    seed = session[:random_seed] || random_seed
     position = session[:position] || 0
     
     # Get total count for this scope to handle wraparound
@@ -45,5 +45,14 @@ class WhoController < ApplicationController
 
     names = @person.name.split(" ")
     @masked_name = names.map {|name| name.gsub(/\B[\w]/, "*") }.join(" ")
+  end
+
+  private
+
+  def random_seed
+    # A value between 1.0 and -1.0, inclusive, that is used
+    # to provide the seed for the next call to the random function.
+    # Postgres specific
+    (rand * 2) - 1
   end
 end
