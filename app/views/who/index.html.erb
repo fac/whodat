@@ -2,10 +2,16 @@
   <h1 class="person">Who?</h1>
   <div class="box">
     <%= link_to "Everyone", play_path, class: "chunky-button mt-2 me-lg-2" %>
-    <%= link_to "Newbies", play_path(recent: true), class: "chunky-button mt-2" %>
+    <%= link_to "Newbies", play_path(recent: true), class: "chunky-button mt-2 me-lg-2" %>
+    <%= link_to "Edinburgh", play_path(edinburgh: true), class: "chunky-button mt-2 me-lg-2" %>
+    <%= link_to "Remote", play_path(remote: true), class: "chunky-button mt-2" %>
   </div>
 
   <div class="logout mt-5">
     <%= button_to "👋 Log Out", login_path, method: :delete, class: "btn btn-link" %>
+  </div>
+
+  <div class="count-footer">
+    <small>Everyone: <%= @everyone %> &nbsp;|&nbsp; Newbies: <%= @newbies %> &nbsp;|&nbsp; Edinburgh: <%= @edinburgh %> &nbsp;|&nbsp; Remote: <%= @remote %></small>
   </div>
 </div>

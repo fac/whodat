@@ -18,7 +18,7 @@ namespace :notion do
     Person.kept.find_each do |person|
       Rails.logger.info "Checking #{person.name}"
 
-      card = notion_cards[person.trello_card_id]
+      card = notion_cards[person.notion_card_id]
       if card.nil?
         Rails.logger.info "Card not found. Deleting #{person.name}"
         person.discard!
@@ -44,30 +44,37 @@ namespace :notion do
       page.results.each do |result|
         begin
           card = NotionExtract.from(result)
-          person = Person.find_or_initialize_by(trello_card_id: card.notion_id)
+          person = Person.find_or_initialize_by(notion_card_id: card.notion_id)
 
           Rails.logger.info "checking #{card.name}"
-
-          # Don't skip if person doesn't exist
-          # Skip if they exist and the updated time is after the card updated time. 
-          if person.persisted? && person.updated_at > card.updated_at
-            # if person.persisted? && person.updated_at > card.updated_at
-            Rails.logger.info "No activity. Skipping"
-            next
-          end
 
           person.name = card.name
           person.title = card.title
           person.team = card.department
-          person.trello_created_at = card.created_at
-          person.save!
+          person.location = card.location
+          person.joined_date = card.joined_date || card.created_at
 
+          person.save! # we need to save before attaching images so object exists
+
+          
           if card.image_url.present?
-            image_io = Down::NetHttp.open(card.image_url)
-            person.avatar.attach(io: image_io, filename: card.image_filename)
+            # There's an image in Notion
+            if person.avatar.blank? || (person.avatar.filename.to_s != card.image_filename)
+              # Download it and attach if we don't have one or it's different
+              image_io = Down::NetHttp.open(card.image_url)
+              person.avatar.attach(io: image_io, filename: card.image_filename)
+              Rails.logger.info "Attached image #{card.image_filename} to #{person.name}"
+            end
+          else
+            # There's no image in Notion
+            if person.avatar.attached?
+              # Remove any existing image
+              person.avatar.purge
+              Rails.logger.info "Removed image from #{person.name}"
+            end
           end
-
           Rails.logger.info "Person #{person.name}, #{person.title}, #{person.team} updated"
+
         rescue
           Rails.logger.info "Could not update"
         end
@@ -151,13 +158,19 @@ namespace :notion do
     end
 
     def department
-      @node[:properties][:Department][:status][:name]
+      @node[:properties][:Department][:select][:name]
     rescue
       ""
     end
 
     def location
       @node[:properties][:Location][:select][:name]
+    rescue
+      ""
+    end
+
+    def joined_date
+      @node[:properties][:Joined][:date][:start]
     rescue
       ""
     end
@@ -175,7 +188,7 @@ namespace :notion do
     end
 
     def image_url
-      @node&.cover.url || @node[:properties][:Attachments][:files][0][:file][:url]
+      @node&.cover&.file&.url || @node[:properties][:Attachments][:files][0][:file][:url]
     rescue
       ""
     end
@@ -189,7 +202,7 @@ namespace :notion do
     end
 
     def to_s
-      "#{notion_id}, #{name}, #{title}, #{team}, #{department}, #{location}, #{image_url[-20..]}, #{image_filename}, #{created_at}, #{updated_at}"
+      "#{notion_id}, #{name}, #{title}, #{team}, #{department}, #{location}, #{image_url[-20..]}, #{image_filename}, #{joined_date}, #{created_at}, #{updated_at}"
     end
   end
 end

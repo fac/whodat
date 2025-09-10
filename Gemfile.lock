@@ -184,10 +184,6 @@ GEM
       net-smtp
     marcel (1.0.4)
     matrix (0.4.2)
-    mime-types (3.6.1)
-      logger
-      mime-types-data (~> 3.2015)
-    mime-types-data (3.2025.0318)
     mini_magick (5.2.0)
       benchmark
       logger
@@ -230,12 +226,6 @@ GEM
       faraday-mashify (>= 0.1.1)
       faraday-multipart (>= 1.0.4)
       hashie (~> 5)
-    oauth (1.1.0)
-      oauth-tty (~> 1.0, >= 1.0.1)
-      snaky_hash (~> 2.0)
-      version_gem (~> 1.1)
-    oauth-tty (1.0.5)
-      version_gem (~> 1.1, >= 1.1.1)
     oauth2 (2.0.12)
       faraday (>= 0.17.3, < 4.0)
       jwt (>= 1.0, < 4.0)
@@ -311,14 +301,6 @@ GEM
     reline (0.6.2)
       io-console (~> 0.5)
     rexml (3.4.1)
-    ruby-trello (4.2.0)
-      activemodel (>= 6.0.0)
-      addressable (~> 2.3)
-      faraday (~> 2.0)
-      faraday-multipart (~> 1.0)
-      json (>= 2.3.0)
-      mime-types (>= 3.0, < 4.0)
-      oauth (>= 0.4.5)
     ruby-vips (2.2.3)
       ffi (~> 1.12)
       logger
@@ -405,7 +387,6 @@ DEPENDENCIES
   puma
   rack-mini-profiler
   rails (~> 8)
-  ruby-trello
   sass-rails (>= 6)
   selenium-webdriver
   stimulus-rails
