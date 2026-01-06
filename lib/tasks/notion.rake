@@ -28,7 +28,30 @@ namespace :notion do
         person.discard!
       end
     end
+
+    Person.discarded.find_each do |person|
+      if person.discarded_at < 6.months.ago
+        Rails.logger.info "Deleting #{person.name}"
+        person.destroy!
+      end
+    end
   end
+
+  def sync_avatar(person, card)
+    if card.image_url.present?
+      # There's an image in Notion to attach
+      if person.avatar.blank? || (person.avatar.filename.to_s != card.image_filename)
+        image_io = Down::NetHttp.open(card.image_url)
+        person.avatar.attach(io: image_io, filename: card.image_filename)
+        Rails.logger.info "Attached image #{card.image_filename} to #{person.name}"
+      end
+    elsif person.avatar.attached?
+      # No image in Notion but one is attached locally - remove it
+      person.avatar.purge
+      Rails.logger.info "Removed image from #{person.name}"
+    end
+  end
+
 
   # This is the point that we start considering Notion updates as new changes
   # so as not to lose the old created_at dates from Trello
@@ -46,7 +69,7 @@ namespace :notion do
           card = NotionExtract.from(result)
           person = Person.find_or_initialize_by(notion_card_id: card.notion_id)
 
-          Rails.logger.info "checking #{card.name}"
+          Rails.logger.info "Checking #{card.name}"
 
           person.name = card.name
           person.title = card.title
@@ -54,29 +77,11 @@ namespace :notion do
           person.location = card.location
           person.joined_date = card.joined_date || card.created_at
 
-          person.save! # we need to save before attaching images so object exists
-
-          
-          if card.image_url.present?
-            # There's an image in Notion
-            if person.avatar.blank? || (person.avatar.filename.to_s != card.image_filename)
-              # Download it and attach if we don't have one or it's different
-              image_io = Down::NetHttp.open(card.image_url)
-              person.avatar.attach(io: image_io, filename: card.image_filename)
-              Rails.logger.info "Attached image #{card.image_filename} to #{person.name}"
-            end
-          else
-            # There's no image in Notion
-            if person.avatar.attached?
-              # Remove any existing image
-              person.avatar.purge
-              Rails.logger.info "Removed image from #{person.name}"
-            end
-          end
+          person.save!
+          sync_avatar(person, card)
           Rails.logger.info "Person #{person.name}, #{person.title}, #{person.team} updated"
-
-        rescue
-          Rails.logger.info "Could not update"
+        rescue => e
+          Rails.logger.error "Could not update #{card&.name}: #{e.message}"
         end
       end
     end
