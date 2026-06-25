@@ -395,6 +395,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder (~> 2.15)
   listen (~> 3.10)
+  mini_magick (~> 5.0)
   notion-ruby-client
   pg
   puma

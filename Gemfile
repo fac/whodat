@@ -10,7 +10,10 @@ gem 'bootsnap', '>= 1.4.4', require: false
 gem 'discard', '~> 2.0'
 gem 'down'
 gem 'google_sign_in'
+# Image resizing. Needs Vips or ImageMagick.
 gem 'image_processing', '~> 1.13'
+# Heroku does not support Vips so we use MiniMagick instead
+gem "mini_magick", "~> 5.0"
 gem 'jbuilder', '~> 2.15'
 gem 'pg'
 gem 'puma'
@@ -23,11 +26,11 @@ gem "importmap-rails"
 # Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+gem 'tzinfo-data', platforms: [:windows, :jruby]
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'byebug', platforms: [:mri]
 end
 
 group :development do
