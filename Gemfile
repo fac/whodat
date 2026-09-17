@@ -11,7 +11,7 @@ gem 'discard', '~> 2.0'
 gem 'down'
 gem 'google_sign_in'
 # Image resizing. Needs Vips or ImageMagick.
-gem 'image_processing', '~> 2.0'
+gem 'image_processing', '~> 2.1'
 # Heroku does not support Vips so we use MiniMagick instead
 gem "mini_magick", "~> 5.4"
 gem 'jbuilder', '~> 2.15'
