@@ -124,7 +124,7 @@ GEM
     date (3.6.0)
     discard (2.0.0)
       activerecord (>= 7.0, < 9.0)
-    down (5.6.0)
+    down (5.6.1)
       addressable (~> 2.8)
       base64 (~> 0.3)
     drb (2.2.3)
@@ -446,7 +446,7 @@ CHECKSUMS
   crass (1.0.7) sha256=94868719948664c89ddcaf0a37c65048413dfcb1c869470a5f7a7ceb5390b295
   date (3.6.0) sha256=18ac945c4e24ebd93534f8eab8c2fd8c5604b3e977105b3798d62a1e8d27b580
   discard (2.0.0) sha256=0fc520786b4d7b9b1ea8b2b3dadbb13c3e41d2ce7d297d04869baf1c9e30d2c0
-  down (5.6.0) sha256=48ec6ddb078cbf3b425d02596bb388303316f976143c6e94a7b3169d6712b593
+  down (5.6.1) sha256=d8702a84c6780ad887405f4358a440efb3e475dda2313910e6a4fcbe38bd21df
   drb (2.2.3) sha256=0b00d6fdb50995fe4a45dea13663493c841112e4068656854646f418fda13373
   erb (6.0.7) sha256=c5ca6dc25b0ef974a44dc8f59fe847577122483b1968a38dec305c60bf91ee92
   erubi (1.13.1) sha256=a082103b0885dbc5ecf1172fede897f9ebdb745a4b97a5e8dc63953db1ee4ad9
